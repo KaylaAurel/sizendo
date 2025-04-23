@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Services\MidtransService; // ← Tambahkan ini
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +12,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Mendaftarkan MidtransService di container
+        $this->app->singleton(MidtransService::class, function ($app) {
+            return new MidtransService();
+        });
     }
 
     /**

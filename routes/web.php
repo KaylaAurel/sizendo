@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,16 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
-
-Route::get('/about', function () {
-    return view('about');
-});
-Route::get('/service', function () {
-    return view('service');
-});
+// Routes umum
 Route::get('/', function () {
     $testimonials = [
         [
@@ -113,11 +105,38 @@ Route::get('/', function () {
 
     return view('home', compact('testimonials', 'pricingPlans', 'faqs'));
 });
+
+Route::get('/about', function () {
+    return view('about');
+});
+
+Route::get('/service', function () {
+    return view('service');
+});
+
 Route::get('/contact', function () {
     return view('contact');
 });
 
+// Login Admin
+Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AuthController::class, 'login']);
+Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
+// Dashboard Admin
+Route::get('/admin/dashboard', function () {
+    if (!session('admin')) {
+        return redirect('/admin/login');
+    }
+    return view('admin.dashboard');
+});
+
+// Register Admin
+Route::get('/admin/register', [AuthController::class, 'showRegisterForm'])->name('admin.register');
+Route::post('/admin/register', [AuthController::class, 'register']);
+use App\Http\Controllers\MemberController;
+
+Route::post('/proses-daftar', [MemberController::class, 'store']);
 
 
 

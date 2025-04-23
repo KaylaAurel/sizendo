@@ -23,16 +23,8 @@
             'description' => 'Menjadi warganet yang cerdas dan bertanggung jawab dengan memahami dunia digital.',
             'extra' => 'Kelas literasi digital ini mengajarkan bagaimana cara menangkal hoax, memahami etika digital, dan menggunakan internet untuk bisnis serta edukasi.'
         ],
-        [
-            'image' => 'details-3.png',
-            'title' => 'Konsultasi Keamanan Akun & Privasi',
-            'description' => 'Lindungi akun dan data pribadi Anda dengan konsultasi keamanan digital.',
-            'points' => [
-                'Membantu mengamankan akun media sosial & email.',
-                'Rekomendasi tools VPN, 2FA, dan enkripsi data.',
-                'Analisis keamanan situs & aplikasi online.'
-            ]
-        ],
+        
+        
         
         
     ];

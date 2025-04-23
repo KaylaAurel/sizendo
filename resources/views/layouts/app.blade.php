@@ -76,15 +76,23 @@
         </div>
 
         <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Useful Links</h4>
-          <ul>
-            <li><a href="{{ url('/') }}">Home</a></li>
-            <li><a href="{{ url('/about') }}">About us</a></li>
-            <li><a href="{{ url('/service') }}">Services</a></li>
-            <li><a href="{{ url('/terms') }}">KTA Digital</a></li>
-            <li><a href="{{ url('/privacy') }}">Contact</a></li>
-          </ul>
-        </div>
+  <h4>Useful Links</h4>
+  <ul>
+    <li><a href="{{ url('/') }}">Home</a></li>
+    <li><a href="{{ url('/about') }}">About us</a></li>
+    <li><a href="{{ url('/service') }}">Services</a></li>
+    <li><a href="{{ url('/terms') }}">KTA Digital</a></li>
+    <li><a href="{{ url('/privacy') }}">Contact</a></li>
+    <li>
+      <div class="d-flex gap-2">
+        <a href="{{ route('admin.login') }}" class="btn-get-started">Admin</a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+
+
 
         <div class="col-lg-2 col-md-3 footer-links">
           <h4>Our Services</h4>
