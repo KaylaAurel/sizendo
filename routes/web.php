@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -136,7 +137,12 @@ Route::get('/admin/register', [AuthController::class, 'showRegisterForm'])->name
 Route::post('/admin/register', [AuthController::class, 'register']);
 use App\Http\Controllers\MemberController;
 
-Route::post('/proses-daftar', [MemberController::class, 'store']);
-
-
-
+Route::post('/payment/token', [PaymentController::class, 'getToken'])->name('payment.token');
+Route::post('/proses-daftar', [RegistrationController::class, 'store'])->name('proses.daftar');
+Route::get('/payment', [PaymentController::class, 'showForm'])->name('payment');
+Route::get('/cek-midtrans', function(){
+    return [
+      'server_key' => config('midtrans.server_key'),
+      'is_production' => config('midtrans.is_production') ? 'true' : 'false',
+    ];
+});
