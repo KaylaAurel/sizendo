@@ -16,8 +16,8 @@
                 <h1>Siber dan Netizen <span>Indonesia</span></h1>
                 <p>Organisasi Warganet Cerdas</p>
                 <div class="d-flex">
-                    <a href="#about" class="btn-get-started">Register</a>
-                    <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox btn-watch-video d-flex align-items-center">
+                <a href="/#pricing" class="btn-get-started">Join</a>
+                    <a href="https://youtu.be/XQJPUAKAqgE?si=EdvwGnMYiTp996Lg" class="glightbox btn-watch-video d-flex align-items-center">
                         <i class="bi bi-play-circle"></i>
                         <span>Watch Video</span>
                     </a>
@@ -59,3 +59,21 @@
 @include('partials.contact')
 
 @endsection
+@section('scripts')
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        loop: true,
+        speed: 600,
+        autoplay: {
+            delay: 5000,
+        },
+        slidesPerView: 'auto',
+        pagination: {
+            el: '.swiper-pagination',
+            type: 'bullets',
+            clickable: true,
+        },
+    });
+</script>
+@endsection
+

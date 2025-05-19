@@ -2,40 +2,49 @@
 
 namespace App\Services;
 
+use Midtrans\Config as MidtransConfig;
 use Midtrans\Snap;
-use Midtrans\Config;
+use Exception;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Config;  // <-- Laravel Config
 
 class MidtransService
 {
     public function __construct()
     {
-        // Set Midtrans Configuration
-        Config::$serverKey = config('midtrans.server_key');
-        Config::$clientKey = config('midtrans.client_key');
-        Config::$isProduction = config('midtrans.is_production');
-        Config::$isSanitized = true;
-        Config::$is3ds = true;
+        // Ambil langsung dari config/midtrans.php (yang sudah baca .env sebelum dicache)
+        MidtransConfig::$serverKey    = Config::get('midtrans.server_key');
+        MidtransConfig::$clientKey    = Config::get('midtrans.client_key');
+        MidtransConfig::$isProduction = Config::get('midtrans.is_production');
+        MidtransConfig::$isSanitized  = true;
+        MidtransConfig::$is3ds        = true;
     }
 
-    public function createTransaction($orderId, $amount, $itemDetails, $customerDetails)
+    public function createTransaction(string $orderId, float|int $grossAmount, array $itemDetails, array $customerDetails): string
     {
-        // Create transaction data for Midtrans
-        $transactionDetails = [
-            'order_id' => $orderId,
-            'gross_amount' => $amount,
-        ];
-
-        $transactionData = [
-            'transaction_details' => $transactionDetails,
+        $transaction = [
+            'transaction_details' => [
+                'order_id'     => $orderId,
+                'gross_amount' => (int) $grossAmount,
+            ],
             'item_details' => $itemDetails,
             'customer_details' => $customerDetails,
         ];
 
         try {
-            // Get snap token
-            return Snap::getSnapToken($transactionData);
-        } catch (\Exception $e) {
-            throw new \Exception('Pembayaran gagal: ' . $e->getMessage());
+            $snapResponse = Snap::createTransaction($transaction);
+
+            if (empty($snapResponse->token)) {
+                throw new Exception('Failed to retrieve Snap token.');
+            }
+
+            return $snapResponse->token;
+        } catch (Exception $e) {
+            Log::error('MidtransService Error', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            throw new Exception('Error creating transaction: ' . $e->getMessage());
         }
     }
 }
