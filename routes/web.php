@@ -2,16 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PaketController;
+
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
 // Routes umum
@@ -123,20 +123,30 @@ Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('admi
 Route::post('/admin/login', [AuthController::class, 'login']);
 Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
-// Dashboard Admin
-Route::get('/admin/dashboard', function () {
-    if (!session('admin')) {
-        return redirect('/admin/login');
-    }
-    return view('admin.dashboard');
-});
 
+
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+Route::patch('/admin/members/{id}/activate', [AdminController::class, 'activateMember'])->name('admin.activate');
+Route::patch('/admin/members/{id}/deactivate', [AdminController::class, 'deactivateMember'])->name('admin.deactivate');
+
+Route::prefix('admin')->middleware('auth:admin')->group(function () {
+    Route::get('/paket', [PaketController::class, 'index'])->name('admin.paket.index');
+    Route::get('/paket/{id}/edit', [PaketController::class, 'edit'])->name('admin.paket.edit');
+    Route::put('/paket/{id}', [PaketController::class, 'update'])->name('admin.paket.update');
+});
 // Register Admin
 Route::get('/admin/register', [AuthController::class, 'showRegisterForm'])->name('admin.register');
 Route::post('/admin/register', [AuthController::class, 'register']);
-use App\Http\Controllers\MemberController;
+Route::put('/admin/paket/{id}', [PaketController::class, 'update'])->name('paket.update');
 
-Route::post('/proses-daftar', [MemberController::class, 'store']);
-
-
-
+Route::post('/midtrans/notification', [PaymentController::class, 'notificationHandler']);
+Route::post('/payment/token', [PaymentController::class, 'getToken'])->name('payment.token');
+Route::post('/proses-daftar', [RegistrationController::class, 'store'])->name('proses.daftar');
+Route::get('/payment', [PaymentController::class, 'showForm'])->name('payment');
+Route::get('/cek-midtrans', function(){
+    return [
+      'server_key' => config('midtrans.server_key'),
+      'is_production' => config('midtrans.is_production') ? 'true' : 'false',
+    ];
+});

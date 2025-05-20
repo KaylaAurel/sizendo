@@ -24,7 +24,7 @@
                     <i class="bi bi-telephone flex-shrink-0"></i>
                     <div>
                         <h3>Call Us</h3>
-                        <p>+1 5589 55488 55</p>
+                        <p>+62 851 5672 7230</p>
                     </div>
                 </div><!-- End Info Item -->
 
@@ -43,7 +43,7 @@
     <p>Jika ada pertanyaan, silakan hubungi kami melalui WhatsApp.</p>
     <img src="assets/img/csimg.png" alt="Contact Person" class="img-fluid mb-3" style="max-width: 300px; border-radius: 10px;">
     <br>
-    <a href="https://wa.me/628XXXXXXXXXX" target="_blank" class="btn btn-success">
+    <a href="https://wa.me/6285156727230" target="_blank" class="btn btn-success">
         <i class="bi bi-whatsapp"></i> Chat via WhatsApp
     </a>
 </div>

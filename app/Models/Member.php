@@ -10,11 +10,17 @@ class Member extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama_member', 
-        'email', 
-        'paket', 
-        'no_wa', 
-        'sosmed', // Menambahkan sosmed
+        'order_id',
+        'nama_member',
+        'email',
+        'paket',
+        'total',
+        'no_wa',
+        'sosmed',
         'catatan',
+        'status',
+        'is_active',     // ditambahkan
+        'start_date',    // ditambahkan
+        'end_date',      // ditambahkan
     ];
 }

@@ -64,14 +64,14 @@
           <div class="footer-contact pt-3">
             <p>Jl. Yosodipuro, No. 19</p>
             <p>Surabaya, Jawa Timur</p>
-            <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
+            <p class="mt-3"><strong>Phone:</strong> <span>+62 851 5672 7230</span></p>
             <p><strong>Email:</strong> <span>sibernitizen@gmail.com</span></p>
           </div>
           <div class="social-links d-flex mt-4">
             <a href=""><i class="bi bi-twitter-x"></i></a>
-            <a href=""><i class="bi bi-facebook"></i></a>
-            <a href=""><i class="bi bi-instagram"></i></a>
-            <a href=""><i class="bi bi-linkedin"></i></a>
+            <a href="https://www.youtube.com/@sizendo"><i class="bi bi-youtube"></i></a>
+            <a href="https://www.instagram.com/sibernitizenindonesia?igsh=MWZsN2dqeWFidXZleg=="><i class="bi bi-instagram"></i></a>
+      
           </div>
         </div>
 
@@ -79,10 +79,10 @@
   <h4>Useful Links</h4>
   <ul>
     <li><a href="{{ url('/') }}">Home</a></li>
-    <li><a href="{{ url('/about') }}">About us</a></li>
-    <li><a href="{{ url('/service') }}">Services</a></li>
-    <li><a href="{{ url('/terms') }}">KTA Digital</a></li>
-    <li><a href="{{ url('/privacy') }}">Contact</a></li>
+    <li><a href="{{ url('/#about') }}">About us</a></li>
+    <li><a href="{{ url('/#service') }}">Services</a></li>
+    <li><a href="{{ url('/#pricing') }}">KTA Digital</a></li>
+    <li><a href="{{ url('/#contact') }}">Contact</a></li>
     <li>
       <div class="d-flex gap-2">
         <a href="{{ route('admin.login') }}" class="btn-get-started">Admin</a>
@@ -97,13 +97,13 @@
         <div class="col-lg-2 col-md-3 footer-links">
           <h4>Our Services</h4>
           <ul>
-            <li><a href="#">Web Design</a></li>
-            <li><a href="#">Web Development</a></li>
-            <li><a href="#">Product Management</a></li>
-            <li><a href="#">Marketing</a></li>
-            <li><a href="#">Graphic Design</a></li>
-          </ul>
-        </div>
+    <li>Web Design</li>
+    <li>Web Development</li>
+    <li>Product Management</li>
+    <li>Marketing</li>
+    <li>Graphic Design</li>
+  </ul>
+</div>
 
 
       </div>

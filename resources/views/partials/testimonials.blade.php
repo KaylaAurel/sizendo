@@ -23,15 +23,11 @@
         <!-- Testimoni 1 -->
         <div class="swiper-slide">
           <div class="testimonial-item">
-            <img src="assets/img/testimonials/testi1.jpg" class="testimonial-img" alt="Rizky A.">
-            <h3>Rizky A.</h3>
+            
+            <h3>Rizky Ananta</h3>
             <h4>Mahasiswa & Content Creator</h4>
             <div class="stars">
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
             </div>
             <p>
               <i class="bi bi-quote quote-icon-left"></i>
@@ -44,15 +40,11 @@
         <!-- Testimoni 2 -->
         <div class="swiper-slide">
           <div class="testimonial-item">
-            <img src="assets/img/testimonials/testi2.jpg" class="testimonial-img" alt="Nadya S.">
-            <h3>Nadya S.</h3>
+            
+            <h3>Nadya Sarinah</h3>
             <h4>Volunteer & Digital Educator</h4>
             <div class="stars">
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
             </div>
             <p>
               <i class="bi bi-quote quote-icon-left"></i>
@@ -65,15 +57,11 @@
         <!-- Testimoni 3 -->
         <div class="swiper-slide">
           <div class="testimonial-item">
-            <img src="assets/img/testimonials/testi3.jpg" class="testimonial-img" alt="Dimas P.">
-            <h3>Dimas P.</h3>
+            
+            <h3>Dimas Pramoedya</h3>
             <h4>Penggiat Keamanan Siber</h4>
             <div class="stars">
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
             </div>
             <p>
               <i class="bi bi-quote quote-icon-left"></i>
@@ -86,5 +74,8 @@
       </div>
       <div class="swiper-pagination"></div>
     </div>
+
+    
+    
   </div>
 </section>
