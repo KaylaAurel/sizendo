@@ -16,7 +16,7 @@
                 <h1>Siber dan Netizen <span>Indonesia</span></h1>
                 <p>Organisasi Warganet Cerdas</p>
                 <div class="d-flex">
-                <a href="/#pricing" class="btn-get-started">Join</a>
+                    <a href="/#pricing" class="btn-get-started">Join</a>
                     <a href="https://youtu.be/XQJPUAKAqgE?si=EdvwGnMYiTp996Lg" class="glightbox btn-watch-video d-flex align-items-center">
                         <i class="bi bi-play-circle"></i>
                         <span>Watch Video</span>
@@ -49,16 +49,20 @@
 <!-- Service Section -->
 @include('partials.service')
 
-<!-- Service Section -->
+<!-- Testimonials Section -->
 @include('partials.testimonials')
 
+<!-- Pricing Section - with $pakets passed -->
 @include('partials.pricing')
 
+<!-- FAQ Section -->
 @include('partials.faq')
 
+<!-- Contact Section -->
 @include('partials.contact')
 
 @endsection
+
 @section('scripts')
 <script>
     var swiper = new Swiper('.swiper-container', {
@@ -76,4 +80,3 @@
     });
 </script>
 @endsection
-

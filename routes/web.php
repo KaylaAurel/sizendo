@@ -1,20 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Paket;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaketController;
 
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-*/
-
-// Routes umum
 Route::get('/', function () {
     $testimonials = [
         [
@@ -54,38 +47,7 @@ Route::get('/', function () {
                 ['text' => 'Iure nihil dolores recusandae odit voluptatibus', 'available' => false],
             ],
         ],
-        [
-            'name' => 'Business Plan',
-            'description' => 'Ullam mollitia quasi nobis soluta in voluptatum et sint palora dex strater',
-            'price' => 29,
-            'delay' => 200,
-            'featured' => true,
-            'features' => [
-                ['text' => 'Quam adipiscing vitae proin', 'available' => true],
-                ['text' => 'Nec feugiat nisl pretium', 'available' => true],
-                ['text' => 'Nulla at volutpat diam uteera', 'available' => true],
-                ['text' => 'Pharetra massa massa ultricies', 'available' => true],
-                ['text' => 'Massa ultricies mi quis hendrerit', 'available' => true],
-                ['text' => 'Voluptate id voluptas qui sed aperiam rerum', 'available' => true],
-                ['text' => 'Iure nihil dolores recusandae odit voluptatibus', 'available' => false],
-            ],
-        ],
-        [
-            'name' => 'Developer Plan',
-            'description' => 'Ullam mollitia quasi nobis soluta in voluptatum et sint palora dex strater',
-            'price' => 49,
-            'delay' => 300,
-            'featured' => false,
-            'features' => [
-                ['text' => 'Quam adipiscing vitae proin', 'available' => true],
-                ['text' => 'Nec feugiat nisl pretium', 'available' => true],
-                ['text' => 'Nulla at volutpat diam uteera', 'available' => true],
-                ['text' => 'Pharetra massa massa ultricies', 'available' => true],
-                ['text' => 'Massa ultricies mi quis hendrerit', 'available' => true],
-                ['text' => 'Voluptate id voluptas qui sed aperiam rerum', 'available' => true],
-                ['text' => 'Iure nihil dolores recusandae odit voluptatibus', 'available' => true],
-            ],
-        ],
+        // ... data lain jika masih perlu
     ];
 
     $faqs = [
@@ -103,19 +65,10 @@ Route::get('/', function () {
         ],
     ];
 
-    return view('home', compact('testimonials', 'pricingPlans', 'faqs'));
-});
+    // Ambil data paket dari database, bisa filter jika perlu
+    $pakets = Paket::all();
 
-Route::get('/about', function () {
-    return view('about');
-});
-
-Route::get('/service', function () {
-    return view('service');
-});
-
-Route::get('/contact', function () {
-    return view('contact');
+    return view('home', compact('testimonials', 'pricingPlans', 'faqs', 'pakets'));
 });
 
 // Login Admin
@@ -123,6 +76,11 @@ Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('admi
 Route::post('/admin/login', [AuthController::class, 'login']);
 Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
+// Menampilkan form register admin
+Route::get('/admin/register', [AuthController::class, 'showRegisterForm'])->name('admin.register');
+
+// Proses register admin
+Route::post('/admin/register', [AuthController::class, 'register']);
 
 
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
@@ -130,15 +88,16 @@ Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('adm
 Route::patch('/admin/members/{id}/activate', [AdminController::class, 'activateMember'])->name('admin.activate');
 Route::patch('/admin/members/{id}/deactivate', [AdminController::class, 'deactivateMember'])->name('admin.deactivate');
 
-Route::prefix('admin')->middleware('auth:admin')->group(function () {
-    Route::get('/paket', [PaketController::class, 'index'])->name('admin.paket.index');
-    Route::get('/paket/{id}/edit', [PaketController::class, 'edit'])->name('admin.paket.edit');
-    Route::put('/paket/{id}', [PaketController::class, 'update'])->name('admin.paket.update');
+// Admin
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('paket', PaketController::class);
 });
-// Register Admin
-Route::get('/admin/register', [AuthController::class, 'showRegisterForm'])->name('admin.register');
-Route::post('/admin/register', [AuthController::class, 'register']);
-Route::put('/admin/paket/{id}', [PaketController::class, 'update'])->name('paket.update');
+
+// Frontend
+Route::get('/pricing', function () {
+    $pakets = \App\Models\Paket::where('status', true)->orderBy('urutan')->get();
+    return view('partials.pricing', compact('pakets'));
+})->name('pricing');
 
 Route::post('/midtrans/notification', [PaymentController::class, 'notificationHandler']);
 Route::post('/payment/token', [PaymentController::class, 'getToken'])->name('payment.token');

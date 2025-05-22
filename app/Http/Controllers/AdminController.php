@@ -10,44 +10,43 @@ use Carbon\Carbon;
 
 class AdminController extends Controller
 {
-    public function dashboard(Request $request)
-    {
-        $members = Member::orderBy('created_at', 'desc')->get();
-
-        $paket = null;
-        if ($request->has('paket_id')) {
-            $paket = Paket::find($request->paket_id);
-        }
-
-        return view('admin.dashboard', [
-            'members' => $members,
-            'paket' => $paket
-        ]);
+    // Menampilkan dashboard dengan daftar member dan paket
+   public function dashboard()
+{
+    if (!session('admin')) {
+        return redirect()->route('admin.login')->with('error', 'Silakan login terlebih dahulu.');
     }
 
-    // Method activateMember sesuai permintaanmu
+    $members = Member::orderBy('created_at', 'desc')->get();
+    $pakets = Paket::orderBy('created_at', 'desc')->get();
+
+    return view('admin.dashboard', compact('members', 'pakets'));
+}
+
+
+    // Aktivasi member
     public function activateMember($id)
     {
         $member = Member::findOrFail($id);
         $member->is_active = true;
-        $member->start_date = Carbon::now(); // Mulai aktif sekarang
-        $member->end_date = Carbon::now()->addMonths(12); // Durasi langganan 1 tahun
+        $member->start_date = Carbon::now();
+        $member->end_date = Carbon::now()->addMonths(12); // 1 tahun aktif
         $member->save();
 
-        // Kirim notifikasi WA
+        // Kirim notifikasi WhatsApp
         $this->sendWhatsappNotification($member);
 
-        return redirect()->back()->with('success', 'Member berhasil diaktifkan dan pemberitahuan telah dikirim.');
+        return redirect()->back()->with('success', 'Member berhasil diaktifkan dan notifikasi terkirim.');
     }
 
+    // Nonaktifkan member
     public function deactivateMember($id)
     {
         $member = Member::find($id);
 
         if ($member) {
-            $member->update([
-                'is_active' => false,
-            ]);
+            $member->is_active = false;
+            $member->save();
 
             return redirect()->back()->with('success', 'Member berhasil dinonaktifkan.');
         }
@@ -55,6 +54,7 @@ class AdminController extends Controller
         return redirect()->back()->with('error', 'Member tidak ditemukan.');
     }
 
+    // Kirim notifikasi WA ke member yang diaktifkan
     private function sendWhatsappNotification($member)
     {
         $phone = preg_replace('/[^0-9]/', '', $member->no_wa);
@@ -66,7 +66,7 @@ class AdminController extends Controller
                    "Langganan Anda telah diaktifkan selama *1 tahun*.\n" .
                    "Paket: *{$member->paket}*\n" .
                    "Berlaku sampai: *" . Carbon::parse($member->end_date)->format('d-m-Y') . "*\n\n" .
-                   "Silahkan lanjutkan download Sizendo App untuk mendapatkan layanan anda!".
+                   "Silahkan lanjutkan download Sizendo App untuk mendapatkan layanan anda!\n" .
                    "Terima kasih telah bergabung bersama kami!";
 
         Http::withHeaders([
@@ -75,5 +75,35 @@ class AdminController extends Controller
             'target' => $phone,
             'message' => $message,
         ]);
+    }
+
+
+    // Halaman edit paket
+    public function editPaket($id)
+    {
+        $paket = Paket::findOrFail($id);
+
+        return view('admin.paket.edit', compact('paket'));
+    }
+
+    // Update paket
+    public function updatePaket(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'duration' => 'required|integer|min:1',
+        ]);
+
+        $paket = Paket::findOrFail($id);
+        $paket->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'duration' => $request->duration,
+        ]);
+
+        return redirect()->route('admin.dashboard')->with('success', 'Paket berhasil diperbarui.');
     }
 }

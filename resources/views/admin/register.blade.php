@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Register Admin</title>
-</head>
-<body>
+@extends('layouts.auth')
+
+@section('content')
+<div class="container mt-5">
     <h2>Register Admin</h2>
 
     @if ($errors->any())
-        <div style="color:red;">
-            <ul>
+        <div class="alert alert-danger">
+            <ul class="mb-0">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
@@ -18,21 +16,27 @@
 
     <form method="POST" action="{{ route('admin.register') }}">
         @csrf
-        <label>Nama:</label><br>
-        <input type="text" name="name"><br><br>
+        <div class="mb-3">
+            <input type="text" name="name" placeholder="Nama" class="form-control" required>
+        </div>
 
-        <label>Email:</label><br>
-        <input type="email" name="email"><br><br>
+        <div class="mb-3">
+            <input type="email" name="email" placeholder="Email" class="form-control" required>
+        </div>
 
-        <label>Password:</label><br>
-        <input type="password" name="password"><br><br>
+        <div class="mb-3">
+            <input type="password" name="password" placeholder="Password" class="form-control" required>
+        </div>
 
-        <label>Konfirmasi Password:</label><br>
-        <input type="password" name="password_confirmation"><br><br>
+        <div class="mb-3">
+            <input type="password" name="password_confirmation" placeholder="Konfirmasi Password" class="form-control" required>
+        </div>
 
-        <button type="submit">Register</button>
+        <button type="submit" class="btn btn-primary">Register</button>
     </form>
 
-    <p><a href="{{ route('admin.login') }}">Kembali ke Login</a></p>
-</body>
-</html>
+    <div class="d-flex justify-content-between mt-3">
+        <a href="{{ route('admin.login') }}" class="btn btn-secondary">Kembali ke Login</a>
+    </div>
+</div>
+@endsection

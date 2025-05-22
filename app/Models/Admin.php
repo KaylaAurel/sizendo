@@ -12,5 +12,3 @@ class Admin extends Model
     protected $fillable = ['name', 'email', 'password'];
     public $timestamps = false; // kalau tidak ada kolom created_at dan updated_at
 }
-
-

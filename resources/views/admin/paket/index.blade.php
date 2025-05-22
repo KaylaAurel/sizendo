@@ -1,42 +1,21 @@
-@extends('layouts.app')
 
-@section('content')
-<div class="container">
-    <h4>Manajemen Paket Keanggotaan</h4>
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-    <table class="table mt-3">
-        <thead>
-            <tr>
-                <th>Nama Paket</th>
-                <th>Harga</th>
-                <th>Deskripsi</th>
-                <th>Fitur</th>
-                <th>Populer</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($pakets as $paket)
-            <tr>
-                <td>{{ $paket->nama }}</td>
-                <td>Rp{{ number_format($paket->harga, 0, ',', '.') }}</td>
-                <td>{{ $paket->deskripsi }}</td>
-                <td>
-                    <ul>
-                        @foreach($paket->fitur as $f)
-                        <li>{{ $f }}</li>
-                        @endforeach
-                    </ul>
-                </td>
-                <td>{{ $paket->popular ? 'Ya' : 'Tidak' }}</td>
-                <td>
-                    <a href="{{ route('admin.paket.edit', $paket->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-@endsection
+<h2>Daftar Paket</h2>
+<a href="{{ route('admin.paket.create') }}">Tambah Paket</a>
+<table>
+  <tr>
+    <th>Nama</th><th>Harga</th><th>Aksi</th>
+  </tr>
+  @foreach($pakets as $paket)
+    <tr>
+      <td>{{ $paket->nama_paket }}</td>
+      <td>Rp {{ number_format($paket->harga) }}</td>
+      <td>
+        <a href="{{ route('admin.paket.edit', $paket) }}">Edit</a>
+        <form action="{{ route('admin.paket.destroy', $paket) }}" method="POST" style="display:inline;">
+          @csrf @method('DELETE')
+          <button type="submit" onclick="return confirm('Yakin?')">Hapus</button>
+        </form>
+      </td>
+    </tr>
+  @endforeach
+</table>

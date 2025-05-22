@@ -84,9 +84,7 @@
     <li><a href="{{ url('/#pricing') }}">KTA Digital</a></li>
     <li><a href="{{ url('/#contact') }}">Contact</a></li>
     <li>
-      <div class="d-flex gap-2">
-        <a href="{{ route('admin.login') }}" class="btn-get-started">Admin</a>
-      </div>
+      
     </li>
   </ul>
 </div>
@@ -110,7 +108,13 @@
     </div>
 
     <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">SIZENDO</strong> <span>All Rights Reserved</span></p>
+      <p>© <span>Copyright</span> 
+   <strong class="px-1 sitename">
+     <a href="{{ route('admin.login') }}" style="text-decoration: none; color: inherit;">SIZENDO</a>
+   </strong> 
+   <span>All Rights Reserved</span>
+</p>
+
       <div class="credits">
         Designed by <a href="https://bootstrapmade.com/">Politeknik Negeri Jember</a>
       </div>
@@ -139,4 +143,3 @@
 
 </body>
 </html>
-
