@@ -1,6 +1,6 @@
 <section id="testimonials" class="testimonials section dark-background">
-  <img src="assets/img/testimonials-bg.jpg" class="testimonials-bg" alt="Testimonials Background">
-  
+  <img src="{{ asset('assets/img/testimonials-bg.jpg') }}" class="testimonials-bg" alt="Testimonials Background">
+
   <div class="container" data-aos="fade-up" data-aos-delay="100">
     <div class="swiper init-swiper">
       <script type="application/json" class="swiper-config">
@@ -18,64 +18,50 @@
           }
         }
       </script>
+
       <div class="swiper-wrapper">
-
-        <!-- Testimoni 1 -->
+        @forelse($testimonials as $testimonial)
         <div class="swiper-slide">
-          <div class="testimonial-item">
-            
-            <h3>Rizky Ananta</h3>
-            <h4>Mahasiswa & Content Creator</h4>
-            <div class="stars">
-              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+          <div class="testimonial-item text-white text-center">
+
+            {{-- Tampilkan foto, atau fallback ke default jika tidak ada --}}
+            @if(!empty($testimonial->photo))
+              <img src="{{ asset('storage/' . $testimonial->photo) }}" class="rounded-circle mb-3" width="80" alt="{{ $testimonial->name }}">
+            @else
+              <img src="{{ asset('assets/img/default-profile.png') }}" class="rounded-circle mb-3" width="80" alt="Default Profile">
+            @endif
+
+            <h3>{{ $testimonial->name }}</h3>
+            <h4>{{ $testimonial->profession }}</h4>
+
+            <div class="stars text-warning mb-2">
+              {{-- Tampilkan rating bintang --}}
+              @for ($i = 0; $i < $testimonial->rating; $i++)
+                <i class="bi bi-star-fill"></i>
+              @endfor
+              @for ($i = $testimonial->rating; $i < 5; $i++)
+                <i class="bi bi-star"></i>
+              @endfor
             </div>
+
             <p>
               <i class="bi bi-quote quote-icon-left"></i>
-              <span>Bergabung di Sizendo bikin aku makin paham literasi digital dan dapat banyak koneksi baru.</span>
+              <span>{{ $testimonial->message }}</span>
               <i class="bi bi-quote quote-icon-right"></i>
             </p>
+
           </div>
         </div>
-
-        <!-- Testimoni 2 -->
+        @empty
         <div class="swiper-slide">
-          <div class="testimonial-item">
-            
-            <h3>Nadya Sarinah</h3>
-            <h4>Volunteer & Digital Educator</h4>
-            <div class="stars">
-              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-            </div>
-            <p>
-              <i class="bi bi-quote quote-icon-left"></i>
-              <span>Sizendo ngasih aku platform untuk berbagi ilmu dan bertemu banyak aktivis digital keren.</span>
-              <i class="bi bi-quote quote-icon-right"></i>
-            </p>
+          <div class="testimonial-item text-white text-center">
+            <p>Belum ada testimonial.</p>
           </div>
         </div>
-
-        <!-- Testimoni 3 -->
-        <div class="swiper-slide">
-          <div class="testimonial-item">
-            
-            <h3>Dimas Pramoedya</h3>
-            <h4>Penggiat Keamanan Siber</h4>
-            <div class="stars">
-              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-            </div>
-            <p>
-              <i class="bi bi-quote quote-icon-left"></i>
-              <span>Dari webinar sampai proyek kolaborasi, Sizendo punya semuanya buat netizen produktif.</span>
-              <i class="bi bi-quote quote-icon-right"></i>
-            </p>
-          </div>
-        </div>
-
+        @endforelse
       </div>
+
       <div class="swiper-pagination"></div>
     </div>
-
-    
-    
   </div>
 </section>

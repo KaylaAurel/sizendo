@@ -56,7 +56,7 @@
 <!-- Service Section -->
 @include('partials.testimonials')
 
-@include('partials.pricing')
+@include('partials.pricing', ['pakets' => $pakets])
 
 @include('partials.faq')
 
