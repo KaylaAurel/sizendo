@@ -10,6 +10,14 @@ use Illuminate\Support\Str;
 
 class MemberController extends Controller
 {
+    public function index()
+    {
+        $members = Member::all();
+        return view('admin.member.index', compact('members'));
+    }
+    
+
+
     protected $midtransService;
 
     public function __construct(MidtransService $midtransService)

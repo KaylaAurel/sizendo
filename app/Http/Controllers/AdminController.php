@@ -7,6 +7,7 @@ use App\Models\Member;
 use App\Models\Paket;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -14,15 +15,26 @@ class AdminController extends Controller
     {
         $members = Member::orderBy('created_at', 'desc')->get();
 
-        $paket = null;
-        if ($request->has('paket_id')) {
-            $paket = Paket::find($request->paket_id);
-        }
+    $paket = null;
+    if ($request->has('paket_id')) {
+        $paket = Paket::find($request->paket_id);
+    }
 
-        return view('admin.dashboard', [
-            'members' => $members,
-            'paket' => $paket
-        ]);
+    // Ambil data jumlah member per bulan
+    $chartData = Member::select(
+        DB::raw("DATE_FORMAT(created_at, '%Y-%m') as bulan"),
+        DB::raw("COUNT(*) as total")
+    )
+    ->groupBy('bulan')
+    ->orderBy('bulan')
+    ->get();
+
+    return view('admin.dashboard', [
+        'members' => $members,
+        'paket' => $paket,
+        'chartData' => $chartData,
+    ]);
+
     }
 
     // Method activateMember sesuai permintaanmu

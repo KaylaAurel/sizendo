@@ -16,31 +16,42 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        // Validasi input login
+        $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required|string',
+        ]);
+
         $admin = DB::table('admins')
             ->where('email', $request->email)
             ->first();
 
         if ($admin && Hash::check($request->password, $admin->password)) {
-            session(['admin' => $admin]);
-            return redirect('/admin/dashboard');
-        } else {
-            return back()->withErrors(['message' => 'Email atau password salah']);
+            $request->session()->regenerate();
+            
+            $request->session()->put('admin_data', $admin); // data admin
+            
+            return redirect()->intended(route('admin.dashboard'));
         }
+
+
+        return back()->withErrors(['message' => 'Email atau password salah'])->withInput($request->only('email'));
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        session()->forget('admin');
-        return redirect('/admin/login');
+        $request->session()->forget('admin');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect(route('admin.login'));
     }
 
-    // ✅ Tampilkan form register admin
     public function showRegisterForm()
     {
         return view('admin.register');
     }
 
-    // ✅ Proses simpan admin baru
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -54,11 +65,13 @@ class AuthController extends Controller
         }
 
         DB::table('admins')->insert([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
+            'name'       => $request->name,
+            'email'      => $request->email,
+            'password'   => Hash::make($request->password),
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
-        return redirect('/admin/login')->with('success', 'Admin berhasil terdaftar!');
+        return redirect(route('admin.login'))->with('success', 'Admin berhasil terdaftar!');
     }
 }
