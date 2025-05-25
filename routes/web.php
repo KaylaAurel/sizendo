@@ -48,9 +48,9 @@ Route::get('/contact', function () {
 
 Route::prefix('admin')->name('admin.')->group(function () {
     // Login dan logout (tanpa middleware admin.auth)
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/login', [AdminController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AdminController::class, 'login']);
+    Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
 
     // Semua route ini hanya bisa diakses oleh admin yang login
     Route::middleware(['admin.auth'])->group(function () {
@@ -64,12 +64,29 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::resource('pengaturan', AdminPengaturanController::class);
 
-        Route::resource('testimonial', TestimonialController::class);
+         Route::resource('testimonial', TestimonialController::class)->only(['index', 'create', 'store']);
 
         Route::patch('/admin/member/{id}/activate', [AdminController::class, 'activateMember'])->name('admin.activate');
         Route::patch('/admin/member/{id}/deactivate', [AdminController::class, 'deactivateMember'])->name('admin.deactivate');
 
     });
+});
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('auth.login');
+// Login & Register untuk User
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+    Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('auth.register');
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::middleware(['auth'])->group(function() {
+    Route::get('/payment', [PaymentController::class, 'index'])->name('payment');
+    
 });
 
 
@@ -79,6 +96,7 @@ Route::post('/admin/register', [AuthController::class, 'register']);
 Route::put('/admin/paket/{id}', [PaketController::class, 'update'])->name('paket.update');
 
 Route::post('/midtrans/notification', [PaymentController::class, 'notificationHandler']);
+Route::get('/payment', [PaymentController::class, 'showForm'])->name('payment.form');
 Route::post('/payment/token', [PaymentController::class, 'getToken'])->name('payment.token');
 // Route::post('/proses-daftar', [RegistrationController::class, 'store'])->name('proses.daftar');
 Route::get('/payment', [PaymentController::class, 'showForm'])->name('payment');
@@ -88,3 +106,7 @@ Route::get('/cek-midtrans', function(){
       'is_production' => config('midtrans.is_production') ? 'true' : 'false',
     ];
 });
+
+
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

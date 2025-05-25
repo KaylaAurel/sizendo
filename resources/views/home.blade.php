@@ -17,10 +17,22 @@
 
 
             <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-in">
+                @if(session('user_data'))
+                    <p>Hai, {{ session('user_data')->name }}</p>
+                @endif
+
                 <h1>Siber dan Netizen <span>Indonesia</span></h1>
                 <p>Organisasi Warganet Cerdas</p>
                 <div class="d-flex">
-                <a href="/#pricing" class="btn-get-started">Join</a>
+               @if(session('user_data'))
+                    {{-- Sudah login, langsung ke halaman pembayaran --}}
+                    <a href="#pricing" class="btn-get-started">Join</a>
+                @else
+                    {{-- Belum login, arahkan ke halaman register (atau login) --}}
+                    <a href="{{ route('auth.register') }}" class="btn-get-started">Join</a>
+                @endif
+
+
                     <a href="https://youtu.be/XQJPUAKAqgE?si=EdvwGnMYiTp996Lg" class="glightbox btn-watch-video d-flex align-items-center">
                         <i class="bi bi-play-circle"></i>
                         <span>Watch Video</span>
@@ -54,7 +66,7 @@
 @include('partials.service')
 
 <!-- Service Section -->
-@include('partials.testimonials')
+@include('partials.testimonials', ['testimonials' => $testimonials])
 
 @include('partials.pricing', ['pakets' => $pakets])
 

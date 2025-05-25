@@ -23,4 +23,16 @@ class Member extends Model
         'start_date',    // ditambahkan
         'end_date',      // ditambahkan
     ];
+
+     // Relasi ke user
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    // Relasi ke paket
+    public function paket()
+    {
+        return $this->belongsTo(Paket::class);
+    }
 }

@@ -12,15 +12,18 @@ return new class extends Migration
     public function up()
 {
     Schema::create('members', function (Blueprint $table) {
-        $table->id();
-        $table->string('nama_member'); // Nama lengkap member
-        $table->string('email')->unique(); // Email member
-        $table->string('paket'); // Paket yang dipilih (misalnya Netizen, Aktivis, Inisiator)
-        $table->string('no_wa'); // Nomor WhatsApp
-        $table->string('sosmed')->nullable(); // Sosial media (opsional)
-        $table->text('catatan')->nullable(); // Catatan (opsional)
-        $table->timestamps(); // Timestamps (created_at, updated_at)
+    $table->id();
+    $table->string('nama_member');
+    $table->string('email')->unique();
+    $table->string('paket');
+    $table->string('no_wa');
+    $table->string('sosmed')->nullable();
+    $table->text('catatan')->nullable();
+    $table->foreignId('user_id')->constrained()->onDelete('cascade');
+    $table->foreignId('paket_id')->constrained('pakets')->onDelete('cascade');
+    $table->timestamps();
     });
+
 }
 
     /**

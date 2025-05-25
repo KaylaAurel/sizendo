@@ -12,4 +12,9 @@ class Paket extends Model
         'fitur' => 'array',
         'popular' => 'boolean',
     ];
+
+    public function members()
+    {
+        return $this->hasMany(Member::class);
+    }
 }

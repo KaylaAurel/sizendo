@@ -22,6 +22,6 @@ class Authenticate extends Middleware
         }
 
         // Default redirect ke route login (user biasa)
-        return route('login');
+        return route('user.login');
     }
 }

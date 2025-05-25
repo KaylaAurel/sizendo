@@ -7,13 +7,36 @@ use App\Services\MidtransService;
 use App\Models\Member;
 use Illuminate\Support\Facades\DB;
 use Midtrans\Notification as MidtransNotification;
+use Illuminate\Support\Facades\Session;
 
 class PaymentController extends Controller
 {
     /**
      * Tampilkan form pembayaran berdasarkan paket dan harga
      */
-    public function showForm(Request $request)
+
+    public function store(Request $request)
+{
+    $user = Session::get('user_data');
+
+    if (!$user) {
+        return redirect()->route('user.login')->with('error', 'Silakan login terlebih dahulu.');
+    }
+
+    DB::table('purchases')->insert([
+        'user_id'    => $user->id, // atau user_id jika field-nya berbeda
+        'product_id' => $request->product_id,
+        'quantity'   => $request->quantity,
+        'total'      => $request->total,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+
+    return back()->with('success', 'Pembelian berhasil!');
+}
+
+
+     public function showForm(Request $request)
     {
         $paket = $request->query('paket');
         $harga = $request->query('harga');
